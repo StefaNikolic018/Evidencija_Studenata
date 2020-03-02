@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class='row justify-content-center my-5 '>
+    <img src="/static/logo.png">
+  </div>
+  <br>
+{% if poruka %}
+  <div class="row justify-content-center">
+    <div class='col-lg-6 col-xs-12'>
+      <div class="alert alert-danger" role="alert">{{poruka}}</div>
+    </div>
+  </div>
+{% endif %}
+
+{% with uspesi = get_flashed_messages(category_filter = ["uspeh"]) %}
+    {% if uspesi %}
+      {% for uspeh in uspesi %}
+  <div class="row justify-content-center">
+    <div class='col-lg-6 col-xs-12'>
+      <div class="alert alert-success">{{ uspeh }}</div>
+    </div>
+  </div>
+      {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% with resursi = get_flashed_messages(category_filter = ["resurs"]) %}
+   {% if resursi %}
+     {% for resurs in resursi %}
+  <div class="row justify-content-center">
+    <div class='col-lg-6 col-xs-12'>
+      <div class="alert alert-danger">{{ resurs }}</div>
+    </div>
+  </div>
+     {% endfor %}
+   {% endif %}
+{% endwith %}
+  <div class="row justify-content-center">
+    <div class='col-lg-6 col-xs-12'>
+      <form action={{url_for('login')}} method="POST">
+  <!-- email -->
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
+  </div>
+
+  <!-- password -->
+  <div class="form-group">
+    <label for="lozinka">Password</label>
+    <input type="password" class="form-control" id="lozinka" name="lozinka">
+  </div>
+  
+  <div class="row justify-content-center">
+    <input type="submit" role="button" class="btn btn-primary" value="Prijavi se"></input>
+  </div>
+</form>
+    </div>
+  </div>
+
+</div>
+ {% endblock %}

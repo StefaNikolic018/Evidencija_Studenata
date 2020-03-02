@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href={{url_for('studenti')}} >Evidencija Studenata</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href={{url_for('studenti')}} >Studenti</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link " href={{url_for('predmeti')}} >Predmeti</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href={{url_for('korisnici')}} >Korisnici</a>
+      </li>
+    </ul>
+    <form action={{url_for('logout')}} method="GET">
+      <button class="btn btn-primary" type="submit">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+      
+    </form>
+
+  </div>
+</nav>
+<div class="container">
+  <div class="row justify-content-left">
+    <div class='col-lg-6 col-xs-12'>
+      <div class="lead my-3 col-6">Izmena Predmeta</div><br>
+      <form action={{url_for('predmet_izmena', id=predmet.id)}} method="POST">
+        
+        
+        <div class="form-group col-6 ">
+          <label for="sifra">Sifra</label>
+          <input type="text" class="form-control" name="sifra" value={{predmet.sifra}} >
+        </div>
+      
+       
+        <div class="form-group col-6 ">
+          <label for="naziv">Naziv</label>
+          <input type="text" class="form-control" name="naziv" value={{predmet.naziv}}>
+        </div>
+      
+          
+          <div class="form-group col-6 ">
+            <label for="god_stud">Godina Studija</label>
+            <input type="text" class="form-control" name="godina_studija" value={{predmet.godina_studija}}>
+          </div>
+      
+           
+        <div class="form-group col-6 ">
+          <label for="espb">ESPB</label>
+          <input type="text" class="form-control" name="espb" value={{predmet.espb}}>
+        </div>
+      
+        <div class="col-6 my-1">
+          <label class="mr-sm-2 " for="inlineFormCustomSelect">Obavezni/Izborni</label><br>
+          <select class="custom-select mr-sm-2 " id="inlineFormCustomSelect" name="obavezni_izborni" >
+            <option selected>Status Predmeta</option>
+            <option value="Obavezni">Obavezni</option>
+            <option value="Izborni">Izborni</option>
+          </select>
+        </div>
+          <br>
+        <input type="submit" class="btn btn-outline-primary mb-3 ml-3" role="button" value="Sačuvaj"/>
+          </form>
+    </div>
+  </div>
+
+</div>
+ {% endblock %}

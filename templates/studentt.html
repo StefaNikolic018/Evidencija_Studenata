@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href={{url_for('studenti')}} >Evidencija Studenata</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href={{url_for('studenti')}} >Studenti</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href={{url_for('predmeti')}} >Predmeti</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href={{url_for('korisnici')}} >Korisnici</a>
+      </li>
+    </ul>
+   
+    <form action={{url_for('logout')}} method="GET">
+      <button class="btn btn-primary" type="submit">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+      
+    </form>
+
+  </div>
+</nav>
+<br>
+<br>
+{% with ocene = get_flashed_messages(category_filter = ["ocena"]) %}
+    {% if ocene %}
+      {% for ocena in ocene %}
+  <div class="row justify-content-center">
+    <div class='col-lg-6 col-xs-12'>
+      <div class="alert alert-success">{{ ocena }}</div>
+    </div>
+  </div>
+      {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class='col-xs-12 col-sm-6 my-5'>
+        <table class="table table-hover">
+            <tbody>
+              <tr>
+                <th>Ime</th>
+                <td>{{student.ime}}</td>
+                
+               
+              </tr>
+              <tr>
+                <th >Ime roditelja</th>
+                <td>{{student.ime_roditelja}}</td>
+              </tr>
+              <tr>
+                <th >Prezime</th>
+                <td>{{student.prezime}}</td>
+                
+              </tr>
+
+              <tr>
+                <th>Broj Indeksa</th>
+                <td>{{student.broj_indeksa}}</td>
+                
+               
+              </tr>
+              <tr>
+                <th >Godina Studija</th>
+                <td>{{student.godina_studija}}</td>
+              </tr>
+              <tr>
+                <th >Broj telefona</th>
+                <td>{{student.broj_telefona}}</td>
+                
+              </tr>
+
+              <tr>
+                <th>Email</th>
+                <td>{{student.email}}</td>
+                
+               
+              </tr>
+              <tr>
+                <th >Datum Rodjenja</th>
+                <td>{{student.datum_rodjenja}}</td>
+              </tr>
+              <tr>
+                <th >JMBG</th>
+                <td>{{student.jmbg}}</td>
+                
+              </tr>
+              <tr>
+                <th >Ukupno ESPB</th>
+                <td>{{student.espb}}</td>
+                
+              </tr>
+              <tr>
+                <th >Prosek ocena</th>
+                <td>{{student.prosek_ocena}}</td>
+                
+              </tr>
+              <tr>
+                <th >Akcije</th>
+                <td class="d-inline-flex">
+
+                  <a class="icon-btn orange" href={{url_for('student_izmena', id=student.id)}} role="button">
+                    <i class="fas fa-edit ml-2"></i>
+                  </a>
+            
+                  <form action={{url_for('student_brisanje', id=student.id)}} method="POST">
+                    <button class="form-inline icon-btn red mt-1 ml-2">
+                      <i class="fas fa-trash-alt"></i></button>
+                      </form>
+                </td>
+                
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div class='col-xs-12 col-sm-6 my-5 '>
+        <form action={{url_for('dodaj_ocenu', id=student.id)}} method="POST">
+            <label for="izaberi">Predmet</label>
+            <select class="custom-select mr-sm-2" id="izaberi" name="izbor">
+                <option>Odaberi Predmet</option>
+                {% for predmet in predmeti %}
+                <option value={{predmet.id}}>{{predmet.naziv}}</option>
+                {% endfor %}
+              </select>
+            
+            <div class="form-group">
+                <label for="ocena">Ocena</label>
+                <input type="number" min="5" max="10" placeholder="5" class="form-control" id="ocena" name="ocena">
+              </div>
+
+              <div class="form-group">
+                <label for="datum">Datum</label>
+                <input type="date" class="form-control" id="datum" name="datum">
+              </div>
+              <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-primary mb-3 ml-3" role="button" value="Dodaj ocenu"/>
+              </div>
+        </form>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-5">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sifra</th>
+            <th scope="col">Naziv</th>
+            <th scope="col">Godina Studija</th>
+            <th scope="col">Obavezni/Izborni</th>
+            <th scope="col">ESPB</th>  
+            <th scope="col">Ocena</th>
+            <th scope="col">Akcija</th>
+        
+        </tr>
+        </thead>
+        <tbody>
+          {% for predmet in predmeti %}
+            {% for ocen in ocene %}
+              {% if (predmet.id==ocen.predmet_id and student.id==ocen.student_id)  %}
+                  <tr>
+                    <td>{{predmet.sifra}}</td>
+                    <td>{{predmet.naziv}}</td>
+                    <td>{{predmet.godina_studija}}</td>
+                    <td>{{predmet.obavezni_izborni}}</td>
+                    <td>{{predmet.espb}}</td>
+                    <td>{{ocen.ocena}}</td>
+                    <td class="d-inline-flex">
+              
+                      <a class="icon-btn orange" href={{url_for('ocena_izmena', id=ocen.id, id1=student.id)}} role="button">
+                        <i class="fas fa-edit ml-2"></i>
+                      </a>
+        
+                      <form action={{url_for('ocena_brisanje', id=ocen.id, id1=student.id)}} method="POST">
+                        <button class="form-inline icon-btn red mt-1 ml-2">
+                          <i class="fas fa-trash-alt"></i></button>
+                          </form>
+                    </td>
+                  </tr>
+                {% endif %}
+            {% endfor %}
+          {% endfor %}
+          </tbody>
+          </table>
+  </div>
+
+</div>
+ {% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href={{url_for('studenti')}} >Evidencija Studenata</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href={{url_for('studenti')}} >Studenti</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href={{url_for('predmeti')}} >Predmeti</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href={{url_for('korisnici')}} >Korisnici</a>
+      </li>
+    </ul>
+   
+    <form action={{url_for('logout')}} method="GET">
+      <button class="btn btn-primary" type="submit">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+      
+    </form>
+
+  </div>
+</nav>
+<div class="container">
+  <div class="row justify-content-left">
+    <div class='col-lg-6 col-xs-12'>
+
+      <div class="lead my-3 col-6">Novi Korisnik </div><br>
+      <form action={{ url_for('korisnik_novi')}} method="POST">
+
+ 
+  <div class="form-group col-6 ">
+    <label for="ime">Ime</label>
+    <input type="text" class="form-control" id="ime" name="ime">
+  </div>
+
+      
+  <div class="form-group col-6 ">
+    <label for="prezime">Prezime</label>
+    <input type="text" class="form-control" id="prezime" name="prezime">
+  </div>
+
+    
+    <div class="form-group col-6 ">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" name="email">
+    </div>
+
+    
+  <div class="form-group col-6 ">
+    <label for="lozinka">Lozinka</label>
+    <input type="password" class="form-control" id="lozinka" name="lozinka">
+  </div>
+
+
+      <button type="submit" class="btn btn-outline-primary mb-3 ml-3">Sačuvaj</button>
+    </form>
+    </div>
+  </div>
+
+</div>
+ {% endblock %}

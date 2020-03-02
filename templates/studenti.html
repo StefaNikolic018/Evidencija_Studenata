@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href={{url_for('studenti')}} >Evidencija Studenata</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href={{url_for('studenti')}} >Studenti</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href={{url_for('predmeti')}} >Predmeti</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href={{url_for('korisnici')}} >Korisnici</a>
+      </li>
+    </ul>
+   
+    <form action={{url_for('logout')}} method="GET">
+      <button class="btn btn-primary" type="submit">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+      
+    </form>
+
+  </div>
+</nav>
+<br>
+<br>
+<br>
+{% with messages = get_flashed_messages(category_filter = ["dobrodoslica"]) %}
+  {% if messages %}
+    {% for message in messages %}
+  <div class="row justify-content-center">
+    <div class='col-lg-6 col-xs-12'>
+      <div class="alert alert-success">{{ message }}</div>
+    </div>
+  </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+{% with messages = get_flashed_messages(category_filter = ["stud"]) %}
+{% if messages %}
+{% for message in messages %}
+<div class="row justify-content-center">
+  <div class='col-lg-6 col-xs-12'>
+    <div class="alert alert-success">{{ message }}</div>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+{% with messages = get_flashed_messages(category_filter = ["bris"]) %}
+{% if messages %}
+{% for message in messages %}
+<div class="row justify-content-center">
+  <div class='col-lg-6 col-xs-12'>
+    <div class="alert alert-success">{{ message }}</div>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="container">
+  <div class="row justify-content-end my-3">
+    <a class="btn btn-outline-primary" href={{url_for('student_novi')}} role="button">Dodaj Studenta</a>
+  </div>
+  <div class="row">
+    
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Broj indeksa</th>
+      <th scope="col">Ime</th>
+      <th scope="col">Prezime</th>      
+      <th scope="col">Godina studija</th>
+      <th scope="col">ESPB</th>
+      <th scope="col">Prosek ocena</th>
+      <th scope="col">Akcije</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in studenti %}
+    <tr>     
+      <td>{{student.broj_indeksa}}</td>
+      <td>{{student.ime}}</td>
+      <td>{{student.prezime}}</td>
+      <td>{{student.godina_studija}}</td> 
+      <td>{{student.espb}}</td>
+      <td>{{student.prosek_ocena}}</td>
+      
+      <td class="d-inline-flex">
+        <form action={{url_for('studentt',id=student.id)}} method="POST">
+          <button type="submit" class="icon-btn blue">
+            <i class="fas fa-eye"></i></button>
+        </form>
+          
+          </button>
+
+          <a class="icon-btn orange" href={{url_for('student_izmena',id=student.id)}} role="button">
+            <i class="fas fa-edit ml-2"></i>
+          </a>
+
+          <form action={{url_for('student_brisanje', id=student.id)}} method="POST">
+            <button class="form-inline icon-btn red mt-1 ml-2">
+              <i class="fas fa-trash-alt"></i></button>
+          </form>
+        </td>
+        </tr>
+   {% endfor %}
+  </tbody>
+
+</table>
+
+  </div>
+
+</div>
+{% endblock %}
